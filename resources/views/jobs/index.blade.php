@@ -15,32 +15,47 @@
                 <input type="text" name="location" class="form-control" placeholder="Location" value="{{ request('location') }}">
             </div>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-dark w-100">Search</button>
+                <button type="submit" class="btn btn-primary w-100">Search</button>
             </div>
         </form>
     </div>
 </div>
 
 <div class="container mt-5">
-    <h2 class="mb-4">Featured Jobs</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Featured Jobs</h2>
+        <a href="{{ route('jobs.create') }}" class="btn btn-primary">Post a Job</a>
+    </div>
+
     @if($jobs->count() > 0)
         <div class="row g-4">
             @foreach($jobs as $job)
                 <div class="col-md-4">
-                    <div class="card job-card h-100 shadow-sm">
+                    <div class="card job-card h-100 shadow-sm border-0">
                         <div class="card-body">
-                            <h5 class="card-title fw-bold">{{ $job->title }}</h5>
-                            <p class="card-subtitle text-muted mb-2">{{ $job->company }}</p>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-container bg-light text-primary rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div>
+                                    <h5 class="card-title fw-bold mb-0">{{ $job->title }}</h5>
+                                    <p class="card-subtitle text-muted small">{{ $job->company }}</p>
+                                </div>
+                            </div>
                             <p class="text-muted small mb-3">
-                                <i class="fas fa-map-marker-alt me-1"></i>{{ $job->location }}<br>
-                                <i class="fas fa-dollar-sign me-1"></i>{{ $job->salary }}<br>
-                                <i class="far fa-calendar-alt me-1"></i>Posted {{ $job->created_at->diffForHumans() }}
+                                <i class="fas fa-map-marker-alt me-1 text-primary"></i>{{ $job->location }}<br>
+                                <i class="fas fa-dollar-sign me-1 text-success"></i>{{ $job->salary }}<br>
+                                <i class="far fa-calendar-alt me-1 text-warning"></i>Posted {{ $job->created_at->diffForHumans() }}
                             </p>
                             <p class="card-text">{{ Str::limit($job->description, 100) }}</p>
                         </div>
-                        <div class="card-footer bg-white d-flex justify-content-between">
-                            <a href="{{ route('jobs.show', $job) }}" class="btn btn-outline-primary btn-sm">View Details</a>
-                            <a href="{{ route('applications.create', $job) }}" class="btn btn-primary btn-sm">Apply Now</a>
+                        <div class="card-footer bg-light d-flex justify-content-between align-items-center">
+                            <a href="{{ route('jobs.show', $job) }}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-info-circle me-1"></i>Details
+                            </a>
+                            <a href="{{ route('applications.create', $job) }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-paper-plane me-1"></i>Apply
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -55,4 +70,6 @@
         </div>
     @endif
 </div>
+
+
 @endsection
