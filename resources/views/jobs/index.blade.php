@@ -24,7 +24,7 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold">Featured Jobs</h2>
-        <a href="{{ route('jobs.create') }}" class="btn btn-primary">Post a Job</a>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#postJobModal">Post a Job</button>
     </div>
 
     @if($jobs->count() > 0)
@@ -71,5 +71,67 @@
     @endif
 </div>
 
-
+<!-- Post Job Modal -->
+<div class="modal fade" id="postJobModal" tabindex="-1" aria-labelledby="postJobModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="postJobModalLabel">Post a Job</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('jobs.store') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <!-- Job Form -->
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Job Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="company" class="form-label">Company</label>
+                        <input type="text" class="form-control" id="company" name="company" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location" name="location" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="requirements" class="form-label">Requirements</label>
+                        <textarea class="form-control" id="requirements" name="requirements" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="salary" class="form-label">Salary</label>
+                        <input type="text" class="form-control" id="salary" name="salary" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="job_type" class="form-label">Job Type</label>
+                        <select class="form-select" id="job_type" name="job_type" required>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Internship">Internship</option>
+                            <option value="Remote">Remote</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Contact Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deadline" class="form-label">Application Deadline</label>
+                        <input type="date" class="form-control" id="deadline" name="deadline" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Post Job</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
