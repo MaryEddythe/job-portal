@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ApplicationController;
 
 /*
@@ -10,8 +11,17 @@ use App\Http\Controllers\ApplicationController;
 |--------------------------------------------------------------------------
 */
 
+// Authentication Routes
+
+
 // Home page
-Route::get('/', [JobController::class, 'index'])->name('home');
+Route::get('/', function() {
+    $latestJobs = \App\Models\Job::where('status', 'active')
+                                ->latest()
+                                ->take(4)
+                                ->get();
+    return view('home', compact('latestJobs'));
+})->name('home');
 
 // Job routes
 Route::resource('jobs', JobController::class);

@@ -3,72 +3,236 @@
 @section('title', 'Browse Jobs')
 
 @section('content')
-<div class="hero-section">
+<!-- Hero Section -->
+<section class="hero-section">
     <div class="container">
-        <h1>Find Your Dream Job</h1>
-        <p>Explore thousands of job opportunities and take the next step in your career.</p>
-        <form action="{{ route('jobs.index') }}" method="GET" class="row g-2 justify-content-center mt-4">
-            <div class="col-md-4">
-                <input type="text" name="search" class="form-control" placeholder="Job title, keywords, or company" value="{{ request('search') }}">
-            </div>
-            <div class="col-md-3">
-                <input type="text" name="location" class="form-control" placeholder="Location" value="{{ request('location') }}">
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">Search</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">Featured Jobs</h2>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#postJobModal">Post a Job</button>
-    </div>
-
-    @if($jobs->count() > 0)
-        <div class="row g-4">
-            @foreach($jobs as $job)
-                <div class="col-md-4">
-                    <div class="card job-card h-100 shadow-sm border-0">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="icon-container bg-light text-primary rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-briefcase"></i>
-                                </div>
-                                <div>
-                                    <h5 class="card-title fw-bold mb-0">{{ $job->title }}</h5>
-                                    <p class="card-subtitle text-muted small">{{ $job->company }}</p>
-                                </div>
-                            </div>
-                            <p class="text-muted small mb-3">
-                                <i class="fas fa-map-marker-alt me-1 text-primary"></i>{{ $job->location }}<br>
-                                <i class="fas fa-dollar-sign me-1 text-success"></i>{{ $job->salary }}<br>
-                                <i class="far fa-calendar-alt me-1 text-warning"></i>Posted {{ $job->created_at->diffForHumans() }}
-                            </p>
-                            <p class="card-text">{{ Str::limit($job->description, 100) }}</p>
+        <div class="hero-content">
+            <h1 class="hero-title">Find your dream job</h1>
+            <form action="{{ route('jobs.index') }}" method="GET" class="search-form">
+                <div class="search-inputs">
+                    <div class="search-input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-search"></i>
                         </div>
-                        <div class="card-footer bg-light d-flex justify-content-between align-items-center">
-                            <a href="{{ route('jobs.show', $job) }}" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-info-circle me-1"></i>Details
-                            </a>
-                            <a href="{{ route('applications.create', $job) }}" class="btn btn-primary btn-sm">
-                                <i class="fas fa-paper-plane me-1"></i>Apply
-                            </a>
+                        <input type="text" name="search" class="search-input" 
+                               placeholder="Job title or keywords" 
+                               value="{{ request('search') }}">
+                    </div>
+                    <div class="search-input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <input type="text" name="location" class="search-input" 
+                               placeholder="Location" </div>
+                               value="{{ request('location') }}">
+                    </div>
+                    <button type="submit" class="search-submit">
+                        <span>Find Jobs</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="container">
+        <div class="content-grid">
+            <!-- Sidebar Filters -->
+            <aside class="filters-sidebar">
+                <div class="filters-header">
+                    <h3>Filters</h3>
+                    <button class="clear-all">Clear All</button>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>JOB TYPE</h4>
+                    <button class="clear-filter">Clear</button>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="job_type[]" value="all">
+                            <span>All (284)</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="job_type[]" value="full-time">
+                            <span>Full Time (146)</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="job_type[]" value="part-time">
+                            <span>Part Time (32)</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="job_type[]" value="contract">
+                            <span>Contract (18)</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="job_type[]" value="internship">
+                            <span>Internship (81)</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="job_type[]" value="freelance">
+                            <span>Freelance (7)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>LOCATION</h4>
+                    <button class="clear-filter">Clear</button>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="location[]" value="chicago">
+                            <span>Chicago, IL (284)</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="location[]" value="niles">
+                            <span>Niles, IL (64)</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="location[]" value="oak-brook">
+                            <span>Oak Brook, IL (39)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>COMPANY</h4>
+                    <button class="clear-filter">Clear</button>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="company[]" value="all">
+                            <span>All (284)</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="company[]" value="abbott">
+                            <span>Abbott (32)</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="company[]" value="deloitte">
+                            <span>Deloitte Solutions (18)</span>
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Job Listings -->
+            <main class="job-listings">
+                <div class="upload-resume-banner">
+                    <div class="banner-content">
+                        <i class="fas fa-file-upload"></i>
+                        <div>
+                            <h4>Upload your resume</h4>
+                            <p>We'll match you with the best jobs. Right job, Right away!</p>
                         </div>
                     </div>
                 </div>
-            @endforeach
+
+                <div class="results-header">
+                    <span class="results-count">284 results found</span>
+                    <div class="sort-options">
+                        <label>Sort By:</label>
+                        <select name="sort">
+                            <option value="date">Date Posted</option>
+                            <option value="relevance">Relevance</option>
+                            <option value="salary">Salary</option>
+                        </select>
+                    </div>
+                </div>
+
+                @if($jobs->count() > 0)
+                    <div class="jobs-grid">
+                        @foreach($jobs as $job)
+                            <div class="job-card">
+                                <div class="job-header">
+                                    <div class="company-logo">
+                                        <i class="fas fa-building"></i>
+                                    </div>
+                                    <div class="job-info">
+                                        <h3 class="job-title">{{ $job->title }}</h3>
+                                        <p class="company-name">{{ $job->company }} • {{ $job->location }}</p>
+                                    </div>
+                                    <button class="save-job">
+                                        <i class="far fa-bookmark"></i>
+                                        Save Job
+                                    </button>
+                                </div>
+                                
+                                <div class="job-details">
+                                    <div class="job-meta">
+                                        <span class="experience">Experience: 3 to 5 Years</span>
+                                        <span class="job-type">Job Type: {{ $job->job_type }}
+                                <div class="job-details">
+                                    <div class="job-meta">
+                                        <span class="experience">Experience: 3 to 5 Years</span>
+                                        <span class="job-type">Job Type: {{ $job->job_type ?? 'Full-Time' }}</span>
+                                        <span class="salary">Salary: {{ $job->salary }}</span>
+                                    </div>
+                                    <p class="job-description">{{ Str::limit($job->description, 120) }}</p>
+                                    <div class="job-footer">
+                                        <span class="posted-time">Posted {{ $job->created_at->diffForHumans() }}</span>
+                                        <div class="job-actions">
+                                            <a href="{{ route('jobs.show', $job) }}" class="btn-details">View Details</a>
+                                            <a href="{{ route('applications.create', $job) }}" class="btn-apply">Apply Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                    <div class="pagination-wrapper">
+                        {{ $jobs->links() }}
+                    </div>
+                @else
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h3>No jobs found</h3>
+                        <p>Try adjusting your search criteria or check back later for new opportunities.</p>
+                    </div>
+                @endif
+            </main>
+
+            <!-- Right Sidebar -->
+            <aside class="right-sidebar">
+                <div class="subscription-card">
+                    <h4>Be the first to see new jobs in <span class="location-highlight">Chicago, IL</span></h4>
+                    <form class="subscription-form">
+                        <input type="email" placeholder="steve.scoffe34@gmail.com" class="email-input">
+                        <button type="submit" class="subscribe-btn">Subscribe Now</button>
+                    </form>
+                    <p class="subscription-note">Not interested? <a href="#">Hide now</a></p>
+                </div>
+
+                <div class="popular-companies">
+                    <h4>Popular in <span class="location-highlight">Chicago</span></h4>
+                    <div class="companies-list">
+                        <div class="company-item">
+                            <img src="/placeholder.svg?height=24&width=24" alt="Workday">
+                            <span>Workday</span>
+                            <small>23 Jobs</small>
+                        </div>
+                        <div class="company-item">
+                            <img src="/placeholder.svg?height=24&width=24" alt="Salesforce">
+                            <span>Salesforce</span>
+                            <small>18 Jobs</small>
+                        </div>
+                        <div class="company-item">
+                            <img src="/placeholder.svg?height=24&width=24" alt="Marriott">
+                            <span>Marriott International</span>
+                            <small>15 Jobs</small>
+                        </div>
+                        <div class="company-item">
+                            <img src="/placeholder.svg?height=24&width=24" alt="CarMax">
+                            <span>CarMax</span>
+                            <small>12 Jobs</small>
+                        </div>
+                    </div>
+                </div>
+            </aside>
         </div>
-        <div class="d-flex justify-content-center mt-4">
-            {{ $jobs->links() }}
-        </div>
-    @else
-        <div class="alert alert-info text-center">
-            <i class="fas fa-info-circle me-2"></i> No jobs found. Please try a different search or check back later.
-        </div>
-    @endif
+    </div>
 </div>
 
 <!-- Post Job Modal -->
@@ -82,7 +246,6 @@
             <form action="{{ route('jobs.store') }}" method="POST">
                 @csrf
                 <div class="modal-body">
-                    <!-- Job Form -->
                     <div class="mb-3">
                         <label for="title" class="form-label">Job Title</label>
                         <input type="text" class="form-control" id="title" name="title" required>
