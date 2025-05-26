@@ -1,37 +1,47 @@
 @extends('layouts.app')
 
 @section('title', 'Browse Jobs')
-
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/jobs.css') }}">
+@endpush
 @section('content')
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="container">
         <div class="hero-content">
-            <h1 class="hero-title">Find your dream job</h1>
-            <form action="{{ route('jobs.index') }}" method="GET" class="search-form">
-                <div class="search-inputs">
-                    <div class="search-input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-search"></i>
+            <h1 class="hero-title">Find Your Dream Job</h1>
+            <p>Search thousands of jobs from top companies and take the next step in your career journey.</p>
+            
+            <div class="hero-search-card">
+                <form action="{{ route('jobs.index') }}" method="GET" class="search-form-card">
+                    <div class="search-form-row">
+                        <div class="search-input-group flex-2">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" name="search" class="search-input" 
+                                placeholder="Search jobs by title, keyword, or company" 
+                                value="{{ request('search') }}">
                         </div>
-                        <input type="text" name="search" class="search-input" 
-                               placeholder="Job title or keywords" 
-                               value="{{ request('search') }}">
-                    </div>
-                    <div class="search-input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-map-marker-alt"></i>
+                        <div class="search-input-group">
+                            <i class="fas fa-map-marker-alt location-icon"></i>
+                            <input type="text" name="location" class="search-input" 
+                                placeholder="City, state, or 'Remote'" 
+                                value="{{ request('location') }}">
                         </div>
-                        <input type="text" name="location" class="search-input" 
-                               placeholder="Location" </div>
-                               value="{{ request('location') }}">
+                        <button type="submit" class="search-submit-card">
+                            Search Jobs
+                            <span class="search-arrow">→</span>
+                        </button>
                     </div>
-                    <button type="submit" class="search-submit">
-                        <span>Find Jobs</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
+                </form>
+                
+                <div class="hero-job-types">
+                    <span class="job-type-link">Remote</span>
+                    <span class="job-type-link">Full-time</span>
+                    <span class="job-type-link">Part-time</span>
+                    <span class="job-type-link">Contract</span>
+                    <span class="job-type-link">Internship</span>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </section>
@@ -48,8 +58,10 @@
                 </div>
                 
                 <div class="filter-group">
-                    <h4>JOB TYPE</h4>
-                    <button class="clear-filter">Clear</button>
+                    <h4>
+                        JOB TYPE
+                        <button class="clear-filter">Clear</button>
+                    </h4>
                     <div class="filter-options">
                         <label class="filter-option">
                             <input type="checkbox" name="job_type[]" value="all">
@@ -79,8 +91,10 @@
                 </div>
 
                 <div class="filter-group">
-                    <h4>LOCATION</h4>
-                    <button class="clear-filter">Clear</button>
+                    <h4>
+                        LOCATION
+                        <button class="clear-filter">Clear</button>
+                    </h4>
                     <div class="filter-options">
                         <label class="filter-option">
                             <input type="checkbox" name="location[]" value="chicago">
@@ -98,8 +112,10 @@
                 </div>
 
                 <div class="filter-group">
-                    <h4>COMPANY</h4>
-                    <button class="clear-filter">Clear</button>
+                    <h4>
+                        COMPANY
+                        <button class="clear-filter">Clear</button>
+                    </h4>
                     <div class="filter-options">
                         <label class="filter-option">
                             <input type="checkbox" name="company[]" value="all">
@@ -159,10 +175,6 @@
                                     </button>
                                 </div>
                                 
-                                <div class="job-details">
-                                    <div class="job-meta">
-                                        <span class="experience">Experience: 3 to 5 Years</span>
-                                        <span class="job-type">Job Type: {{ $job->job_type }}
                                 <div class="job-details">
                                     <div class="job-meta">
                                         <span class="experience">Experience: 3 to 5 Years</span>
