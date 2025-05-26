@@ -40,7 +40,7 @@
                                placeholder="Bucharest, Romania" 
                                value="{{ request('location') }}">
                     </div>
-                    <button type="submit" class="search-btn">Find it now</button>
+                    <button type="submit" class="search-btn">Find Jobs</button>
                 </div>
             </form>
         </div>
