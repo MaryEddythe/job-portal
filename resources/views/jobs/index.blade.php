@@ -9,30 +9,38 @@
 <section class="hero-section">
     <div class="container">
         <div class="hero-content">
-            <h1 class="hero-title">Find Your Dream Job</h1>
-            <p>Search thousands of jobs from top companies and take the next step in your career journey.</p>
+            <div class="hero-text">
+                <h1 class="hero-title">Find Your Dream Job</h1>
+                <p class="hero-subtitle">Search thousands of jobs from top companies and take<br>the next step in your career journey</p>
+            </div>
             
             <div class="hero-search-card">
-                <form action="{{ route('jobs.index') }}" method="GET" class="search-form-card">
-                    <div class="search-form-row">
-                        <div class="search-input-group flex-2">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" name="search" class="search-input" 
-                                placeholder="Search jobs by title, keyword, or company" 
-                                value="{{ request('search') }}">
+                <div class="search-header">
+                    <form action="{{ route('jobs.index') }}" method="GET" class="search-form-card">
+                        <div class="search-form-row">
+                            <div class="search-input-group flex-2">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" name="search" class="search-input" 
+                                    placeholder="Search jobs by title, keyword, or company" 
+                                    value="{{ request('search') }}">
+                            </div>
+                            <div class="search-input-group">
+                                <i class="fas fa-map-marker-alt location-icon"></i>
+                                <input type="text" name="location" class="search-input" 
+                                    placeholder="City, state, or 'Remote'" 
+                                    value="{{ request('location') }}">
+                            </div>
+                            <button type="submit" class="search-submit-card">
+                                Search Jobs
+                                <span class="search-arrow">→</span>
+                            </button>
                         </div>
-                        <div class="search-input-group">
-                            <i class="fas fa-map-marker-alt location-icon"></i>
-                            <input type="text" name="location" class="search-input" 
-                                placeholder="City, state, or 'Remote'" 
-                                value="{{ request('location') }}">
-                        </div>
-                        <button type="submit" class="search-submit-card">
-                            Search Jobs
-                            <span class="search-arrow">→</span>
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                    <a href="{{ route('jobs.create') }}" class="post-job-btn">
+                        <i class="fas fa-plus-circle"></i>
+                        Post a Job
+                    </a>
+                </div>
                 
                 <div class="hero-job-types">
                     <span class="job-type-link">Remote</span>
@@ -243,69 +251,6 @@
                     </div>
                 </div>
             </aside>
-        </div>
-    </div>
-</div>
-
-<!-- Post Job Modal -->
-<div class="modal fade" id="postJobModal" tabindex="-1" aria-labelledby="postJobModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="postJobModalLabel">Post a Job</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{ route('jobs.store') }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Job Title</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="company" class="form-label">Company</label>
-                        <input type="text" class="form-control" id="company" name="company" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control" id="location" name="location" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="requirements" class="form-label">Requirements</label>
-                        <textarea class="form-control" id="requirements" name="requirements" rows="3" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="salary" class="form-label">Salary</label>
-                        <input type="text" class="form-control" id="salary" name="salary" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="job_type" class="form-label">Job Type</label>
-                        <select class="form-select" id="job_type" name="job_type" required>
-                            <option value="Full-time">Full-time</option>
-                            <option value="Part-time">Part-time</option>
-                            <option value="Contract">Contract</option>
-                            <option value="Internship">Internship</option>
-                            <option value="Remote">Remote</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Contact Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="deadline" class="form-label">Application Deadline</label>
-                        <input type="date" class="form-control" id="deadline" name="deadline" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Post Job</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
